@@ -48,7 +48,7 @@ Practica_RTOS/FreeRTOS/Demo/
 
 - Option 1 - Clone via     Sistema Operativo: Linux
 
-- Compilador: GCC
+- Compilador: GCC v12
 
 - Make: Herramienta de construcción
 
