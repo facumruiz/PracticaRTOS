@@ -1,66 +1,88 @@
 /************************************************************************************
- *  RTOS 
- *  
+ *  RTOS - Ejercicio 6
  *  2025
- *
- *  Ejercicio 6 - Borrado de tareas
- *
+ *  Borrando tareas dinámicamente (basado en Ejercicio 5)
  ************************************************************************************/
 
 #include "FreeRTOS.h"
 #include "task.h"
 #include "supporting_functions.h"
 
-/* Delay en ms (si tick = 1 ms) */
-#define mainTASK_DELAY    pdMS_TO_TICKS(500)
+/* Escenario base: 80%-20% */
+#define TASK1_RATIO 30
 
-/* Estructura para pasar parámetros a la tarea */
-typedef struct {
-    const char* pcMessage;
-    int nRepetitions;
-} TaskParams_t;
+/* Número de ejecuciones de la Tarea 2 antes de eliminarse */
+#define TASK2_RUN_COUNT 15
 
-/* Declaración de funciones de tareas */
-void vTaskWithParam(void* pvParameters);
+/* Contador de bucle para delay simulado */
+#define MAIN_DELAY_LOOP_COUNT (0xffffff)
 
-/* Parámetros para las tareas */
-TaskParams_t xTask1Params = { "Mensaje Tarea 1\n", -1 };   // -1 = infinito
-TaskParams_t xTask2Params = { "Mensaje Tarea 2\n", 5 };    // ejecuta 5 veces y se borra
+/* Handles de tareas */
+TaskHandle_t task1Handle = NULL;
+TaskHandle_t task2Handle = NULL;
+
+/*-----------------------------------------------------------*/
+/* Tarea genérica — se usa tanto para Tarea 1 como Tarea 2 */
+void vTaskWithParam(void *pvParameters)
+{
+    const char *msg = (const char *)pvParameters;
+    volatile uint32_t ul;
+    static uint32_t counter2 = 0;   /* Contador local estático para tarea 2 */
+
+    for (;;)
+    {
+        vPrintString(msg);
+
+        /* Delay bloqueante simulado (consume CPU) */
+        for (ul = 0; ul < MAIN_DELAY_LOOP_COUNT; ul++) { }
+
+        /* Si esta es la Tarea 2, controlar su cantidad de ejecuciones */
+        if (pvParameters == (void *)"Tarea 2 ejecutando\n")
+        {
+            counter2++;
+            if (counter2 >= TASK2_RUN_COUNT)
+            {
+                vPrintString("Tarea 2 finalizando y borrándose...\n");
+                vTaskDelete(NULL);  /* Borra la tarea actual */
+            }
+        }
+    }
+}
 
 /*-----------------------------------------------------------*/
 int main(void)
 {
-    /* Tarea 1: prioridad alta (nunca se borra) */
-    xTaskCreate(vTaskWithParam, "Task 1", 1000, &xTask1Params, 2, NULL);
+    /* Crear tareas con prioridad inicial */
+    xTaskCreate(vTaskWithParam, "Task 1", 1000, "Tarea 1 ejecutando\n", 1, &task1Handle);
+    xTaskCreate(vTaskWithParam, "Task 2", 1000, "Tarea 2 ejecutando\n", 1, &task2Handle);
 
-    /* Tarea 2: prioridad baja (se borra después de N repeticiones) */
-    xTaskCreate(vTaskWithParam, "Task 2", 1000, &xTask2Params, 1, NULL);
+    /* Ajustar prioridades según el escenario */
+    switch (TASK1_RATIO)
+    {
+        case 80: // Tarea 1 → 80%, Tarea 2 → 20%
+            vTaskPrioritySet(task1Handle, 3);
+            vTaskPrioritySet(task2Handle, 1);
+            break;
 
+        case 50: // 50% - 50%
+            vTaskPrioritySet(task1Handle, 2);
+            vTaskPrioritySet(task2Handle, 2);
+            break;
+
+        case 30: // Tarea 1 → 30%, Tarea 2 → 70%
+            vTaskPrioritySet(task1Handle, 1);
+            vTaskPrioritySet(task2Handle, 3);
+            break;
+
+        default: // Igual prioridad
+            vTaskPrioritySet(task1Handle, 2);
+            vTaskPrioritySet(task2Handle, 2);
+            break;
+    }
+
+    /* Iniciar el scheduler */
     vTaskStartScheduler();
 
+    /* No debería llegar aquí */
     for (;;);
-}
-/*-----------------------------------------------------------*/
-
-/* Función de tarea */
-void vTaskWithParam(void* pvParameters)
-{
-    TaskParams_t* pxParams = (TaskParams_t*) pvParameters;
-    int counter = pxParams->nRepetitions;
-
-    for (;;)
-    {
-        vPrintString(pxParams->pcMessage);
-
-        /* Si tiene un número limitado de repeticiones */
-        if (counter > 0) {
-            counter--;
-            if (counter == 0) {
-                vPrintString("Tarea finalizada, se elimina a sí misma.\n");
-                vTaskDelete(NULL);   // Borra esta tarea
-            }
-        }
-
-        vTaskDelay(mainTASK_DELAY);
-    }
 }

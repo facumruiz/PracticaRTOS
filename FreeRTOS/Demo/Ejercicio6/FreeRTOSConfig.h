@@ -95,8 +95,8 @@ void vConfigureTimerForRunTimeStats( void );    /* Prototype of function that in
 /* Set the following definitions to 1 to include the API function, or zero
  * to exclude the API function.  In most cases the linker will remove unused
  * functions anyway. */
-#define INCLUDE_vTaskPrioritySet                  0
-#define INCLUDE_uxTaskPriorityGet                 0
+#define INCLUDE_vTaskPrioritySet                  1
+#define INCLUDE_uxTaskPriorityGet                 1
 #define INCLUDE_vTaskDelete                       1
 #define INCLUDE_vTaskCleanUpResources             0
 #define INCLUDE_vTaskSuspend                      1
