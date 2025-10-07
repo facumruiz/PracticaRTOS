@@ -1,5 +1,8 @@
 # Prácticas de Sistemas Operativos de Tiempo Real - 2025
 
+## 📋 Resolucion de la Practica
+
+Resolucion de la practica en el archivo [resolucion.md](resolucion.md)
 
 ## 📋 Descripción
 
