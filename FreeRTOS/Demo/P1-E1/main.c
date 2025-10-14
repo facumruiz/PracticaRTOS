@@ -4,7 +4,7 @@
  *  2025
  *
  *  Ejercicio 1
- *
+ *  Delays - Uso del estado blocked para generar una demora
  ************************************************************************************/
 
 

@@ -7,7 +7,7 @@ Resolucion de [Practica1.pdf](Practica1.pdf)
 
 ## Resolucion de la Practica
 
-### [1. Creación de tareas (desde main):](./Ejercicio1/main.c)
+### [1. Creación de tareas (desde main):](./P1-E1/main.c)
  
 a)  Crear un clon del proyecto Hola_mundo generado en las actividades previas. 
  
@@ -28,13 +28,13 @@ g)  **Explicar en qué consiste la corrección que debió realizarse**
 
 ### Salida del Programa
 
-![Alt Text](./GIFs/Ejercicio1.gif)
+![Alt Text](./GIFs/P1/Ejercicio1.gif)
 
 La corrección fue declarar la función de la tarea `(vTask1)` antesde su uso en `xTaskCreate()`, o sea agregar su prototipo o mover sudefinición por encima del `main()`.
 
 ---
 
-### [2. Creación de tareas (desde tarea):](./Ejercicio2/main.c)
+### [2. Creación de tareas (desde tarea):](./P1-E2/main.c)
 
 a)  Clonar el programa del ejercicio 1 
  
@@ -43,7 +43,7 @@ b)  Modificar para que la tarea 2 se cree dentro de la tarea 1
 c)  Ejecutar y comprobar funcionamiento. **Hacer captura de pantalla de la salida del programa**.
 
 ### Salida del Programa
-![Alt Text](./GIFs/Ejercicio2.gif)
+![Alt Text](./GIFs/P1/Ejercicio2.gif)
 
 Fragmento de codigo donde se crea la `tarea 2` dentro de la `tarea 1`
 
@@ -69,7 +69,7 @@ void vTask2(void* pvParameters)
 ```
 ---
 
-### [3. Uso de los parámetros de tareas: ](./Ejercicio3/main.c)
+### [3. Uso de los parámetros de tareas: ](./P1-E3/main.c)
 
 Debe notarse que en los ejercicios anteriores ambas tareas ejecutan casi el mismo proceso, a excepción del mensaje que imprime cada tarea. Se puede mejorar el código evitando escribir dos veces el mismo proceso. para ello deben utilizarse los parámetros de tarea.   
  
@@ -86,7 +86,7 @@ salida del programa
 
 
 #### Salida del Programa
-![Alt Text](./GIFs/Ejercicio3.gif)
+![Alt Text](./GIFs/P1/Ejercicio3.gif)
 
 Creacion de Funcion `vTaskWithParam` que imprime un mensaje recibido como parámetro
 
@@ -127,7 +127,7 @@ int main(void)
 
 --- 
 
-### [4. Experimentando con prioridades:  ](./Ejercicio4/main.c)
+### [4. Experimentando con prioridades:  ](./P1-E4/main.c)
 
 a)  Basándose en el ejercicio anterior, modificar para que las dos tareas corran a 
 distintas prioridades. 
@@ -142,7 +142,7 @@ c)  Contestar las siguientes preguntas:
 
 
 #### Salida del Programa
-![Alt Text](./GIFs/Ejercicio4.gif)
+![Alt Text](./GIFs/P1/Ejercicio4.gif)
 
 
 #### 1. Describa brevemente el funcionamiento del programa:
@@ -177,7 +177,7 @@ Esto permite garantizar que las tareas más importantes respondan primero, asegu
 
 ---
 
-### [5. Cambiando prioridades (Dinamicas): ](./Ejercicio5/main.c)
+### [5. Cambiando prioridades (Dinamicas): ](./P1-E5/main.c)
  
 a)  Generar un clon del programa del ejercicio anterior  
  
@@ -200,13 +200,13 @@ salida del programa para cada opción.
 
 
 #### Opcion 1: Tarea 1 > 80% del tiempo, Tarea 2 > 20% del tiempo 
-![Alt Text](./GIFs/Ejercicio5-1.gif)
+![Alt Text](./GIFs/P1/Ejercicio5-1.gif)
 
 #### Opcion 2: Tarea 1 > 50% del tiempo, Tarea 2 > 50% del tiempo 
-![Alt Text](./GIFs/Ejercicio5-2.gif)
+![Alt Text](./GIFs/P1/Ejercicio5-2.gif)
 
 #### Opcion 3: 30% del tiempo, Tarea 2 > 70% del tiempo 
-![Alt Text](./GIFs/Ejercicio5-3.gif)
+![Alt Text](./GIFs/P1/Ejercicio5-3.gif)
 
 
 
@@ -265,7 +265,7 @@ Implementacion dentro de main:
 ```
 
 ---
-### [6. Borrando tareas ](./Ejercicio6/main.c)
+### [6. Borrando tareas ](./P1-E6/main.c)
 
 a)  Basándose en el ejercicio anterior (versión 80% - 20%), hacer que la tarea 2 
 se ejecute un número determinado de veces (parámetro de programa) y 
@@ -278,7 +278,7 @@ salida del programa.
 #### Salida del Programa
 
 #### Opcion 3: 30% del tiempo, Tarea 2 > 70% del tiempo 
-![Alt Text](./GIFs/Ejercicio6.gif)
+![Alt Text](./GIFs/P1/Ejercicio6.gif)
 
 #### Ejecución limitada de Tarea 2
 La Tarea 2 se ejecuta 15 veces (en este caso) y luego se borra automáticamente.
